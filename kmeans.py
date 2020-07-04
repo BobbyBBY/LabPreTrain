@@ -44,7 +44,7 @@ def point_avg(points):
         sum = 0
         for p in points:
             sum += p[i]
-        new_center.append(float("%.8f" % (sum/float(len(points)))))
+        new_center.append(float("%.4f" % (sum/float(len(points)))))
     return new_center
  
 def updataCenters(data, assigments):
