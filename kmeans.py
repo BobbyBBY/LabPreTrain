@@ -10,6 +10,7 @@ import random
 
 args = None
 
+# 初始化静态参数
 def args_init_static():
     parser = argparse.ArgumentParser()
     parser.add_argument("--k_classes",         type=int,       default=3,    help="")
@@ -21,24 +22,24 @@ def args_init_static():
     args = parser.parse_args()
     return args
 
+# 初始化聚类中心,人为选定
 def generateCenters(data):
-    # 初始化聚类中心,人为选定
     centers = []
     centers.append(data[24][:4])
     centers.append(data[74][:4]) 
     centers.append(data[124][:4]) 
     return centers
- 
+
+# 计算欧式距离
 def distance(a ,b):
-    # 欧式距离
     sum = 0
     for i in range(args.attribute_dim):
         sq = (a[i]-b[i])*(a[i]-b[i])
         sum += sq
     return math.sqrt(sum)
- 
+
+# 对维度求平均值
 def point_avg(points):
-    # 对维度求平均值
     new_center = []
     for i in range(args.attribute_dim):
         sum = 0
@@ -46,7 +47,8 @@ def point_avg(points):
             sum += p[i]
         new_center.append(float("%.4f" % (sum/float(len(points)))))
     return new_center
- 
+
+# 更新聚类中心
 def updataCenters(data, assigments):
     new_means = defaultdict(list)
     centers = []
@@ -57,7 +59,8 @@ def updataCenters(data, assigments):
         points = new_means[i]
         centers.append(point_avg(points))
     return np.asarray(centers)
- 
+
+# 归类
 def assignment(data, centers):
     assignments = []
     for point in data:
@@ -72,7 +75,8 @@ def assignment(data, centers):
                 shortestindex = i
         assignments.append(shortestindex)
     return assignments
- 
+
+# 新的聚类中心与旧聚类中心的差距
 def center_diff(a,b):
     if a is None or b is None :
         return True
