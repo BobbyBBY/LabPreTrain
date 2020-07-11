@@ -126,11 +126,15 @@ def draw(data):
             plt.scatter(x_axis, y_axis,c = z_axis)
     plt.show()
 
-if __name__ == "__main__":
-    args = args_init_static()
+def load_data():
     df = arff.loadarff(args.filename)
     data = pd.DataFrame(df[0])
-    data = data.values
+    data = np.array(data.values)
+    return data
+
+if __name__ == "__main__":
+    args = args_init_static()
+    data = load_data()
     for i in range(3):
         for j in range(50):
             data[i*50+j][4]=i

@@ -1,5 +1,3 @@
-# import copy
-# import matplotlib.pyplot as plt
 import argparse
 import math
 import numpy as np
@@ -12,9 +10,9 @@ args = None
 # 初始化静态参数
 def args_init_static():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--attribute_dim",     type=int,       default=4,     help="")
+    parser.add_argument("--attribute_dim",     type=int,       default=4,       help="")
     parser.add_argument("--data_length",       type=int,       default=150,     help="")
-    parser.add_argument("--k_max",             type=int,       default=50,     help="")
+    parser.add_argument("--k_max",             type=int,       default=50,      help="")
     parser.add_argument("--filename",          type=str,       default="Dataset/iris.arff",     help="")
     args = parser.parse_args()
     return args
@@ -80,11 +78,15 @@ def test(data, result):
     rate = sum/all
     return sum, all, rate
 
-if __name__ == "__main__":
-    args = args_init_static()
+def load_data():
     df = arff.loadarff(args.filename)
     data = pd.DataFrame(df[0])
     data = np.array(data.values)
+    return data
+
+if __name__ == "__main__":
+    args = args_init_static()
+    data = load_data()
     for k in range(args.k_max):
         result = []
         for i in range(args.data_length):
