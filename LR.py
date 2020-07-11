@@ -26,7 +26,7 @@ def sigmoid(x):
         return np.exp(x)/(1+np.exp(x))
     # return 1.0/(1+np.exp(-x))
 
-# 改进版随机梯度下降
+# 随机梯度下降
 def stocGradAscent(data, labels):
     m,n=np.shape(data)
     gamma = args.gamma
@@ -68,8 +68,7 @@ if __name__=='__main__':
             labels[i] = 1
         else:
             labels[i] = 0
-    weights=stocGradAscent(data2, labels)
-    sum, all, rate = test(weights, data2, labels)
-    print(' 成功:', sum, ' 总共:', all, ' 准确度为:%2f%%' % (rate*100))
-
-    # draw(weights,data2,labels)
+    for i in range(15):
+        weights=stocGradAscent(data2, labels)
+        sum_num, all, rate = test(weights, data2, labels)
+        print(' 成功:', sum_num, ' 总共:', all, ' 准确度为:%2f%%' % (rate*100))

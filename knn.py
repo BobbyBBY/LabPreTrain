@@ -12,7 +12,7 @@ def args_init_static():
     parser = argparse.ArgumentParser()
     parser.add_argument("--attribute_dim",     type=int,       default=4,       help="")
     parser.add_argument("--data_length",       type=int,       default=150,     help="")
-    parser.add_argument("--k_max",             type=int,       default=50,      help="")
+    parser.add_argument("--k_max",             type=int,       default=25,      help="")
     parser.add_argument("--filename",          type=str,       default="Dataset/iris.arff",     help="")
     args = parser.parse_args()
     return args

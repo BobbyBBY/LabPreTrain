@@ -19,11 +19,11 @@ def args_init_static():
      args = parser.parse_args()
      return args
 
-# softmax函数，将线性回归值转化为概率的激活函数。输入s要是行向量
-def softmax(s):
-     return np.exp(s) / np.sum(np.exp(s))
+# softmax函数，将线性回归值转化为概率的激活函数
+def softmax(x):
+     return np.exp(x) / np.sum(np.exp(x))
 
-# 改进版随机梯度下降
+# 随机梯度下降
 def stocGradAscent(data, labels):
      m,n=np.shape(data)
      gamma = args.gamma
@@ -70,13 +70,7 @@ if __name__ == "__main__":
                labels[i][1] = 1
           else :
                labels[i][2] = 1
-     weights=stocGradAscent(data2, labels)
-     sum, all, rate = test(weights, data2, labels)
-     print(' 成功:', sum, ' 总共:', all, ' 准确度为:%2f%%' % (rate*100))
-
-#     train_x, test_x, train_y, test_y = train_test_split(data, label, test_size = 0.25, random_state=33)
-#     k = len(np.unique(label))
-    
-#     weights = gradient_descent(train_x, train_y, k, 800, 0.01)
-#     accuracy, predict_y = test_model(test_x, test_y, weights)
-#     print("Accuracy:", accuracy)
+     for i in range(15):
+          weights=stocGradAscent(data2, labels)
+          sum_num, all, rate = test(weights, data2, labels)
+          print(' 成功:', sum_num, ' 总共:', all, ' 准确度为:%2f%%' % (rate*100))
