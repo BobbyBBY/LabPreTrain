@@ -12,8 +12,8 @@ def args_init_static():
     parser = argparse.ArgumentParser()
     parser.add_argument("--attribute_dim",     type=int,       default=8,       help="")
     parser.add_argument("--data_length",       type=int,       default=768,     help="")
-    parser.add_argument("--epoch",             type=int,       default=300,     help="")
-    parser.add_argument("--gamma",             type=int,       default=0.01,    help="")
+    parser.add_argument("--epoch",             type=int,       default=400,     help="")
+    parser.add_argument("--gamma",             type=int,       default=0.001,    help="")
     parser.add_argument("--filename",          type=str,       default="Dataset/diabetes.arff",     help="")
     args = parser.parse_args()
     return args
@@ -63,11 +63,10 @@ if __name__=='__main__':
     data2 = data[:,0:args.attribute_dim+1]
     labels = data[:,args.attribute_dim+1:]
     for i in range(args.data_length): # 处理标签，转化为int型
-        c = labels[i][0]
         if labels[i][0]==b'tested_positive':
-            labels[i] = 1
+            labels[i][0] = 1
         else:
-            labels[i] = 0
+            labels[i][0] = 0
     for i in range(15):
         weights=stocGradAscent(data2, labels)
         sum_num, all, rate = test(weights, data2, labels)
