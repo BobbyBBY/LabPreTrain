@@ -32,7 +32,6 @@ class Tree:
 
 def calculateDiffCount(datas):
     # 将输入的数据汇总(input, dataSet)
-    # return results Set{type1:type1Count, type2:type2Count .... typeN:typeNCount}
     """
     该函数是计算gini值的辅助函数，假设输入的dataSet为为['A', 'B', 'C', 'A', 'A', 'D']，
     则输出为['A':3,' B':1, 'C':1, 'D':1]，这样分类统计dataSet中每个类别的数量
@@ -47,7 +46,6 @@ def calculateDiffCount(datas):
     return results
 
 
-# gini()
 def gini(data):
     # 计算gini的值(Calculate GINI)
 
@@ -59,8 +57,7 @@ def gini(data):
     return 1 - imp
 
 def splitDatas(data, value, column):
-    # 根据条件分离数据集(splitDatas by value, column)
-    # return 2 part（list1, list2）
+    # 根据条件分离数据集
 
     list1 = []
     list2 = []
@@ -81,9 +78,6 @@ def splitDatas(data, value, column):
 
 def buildDecisionTree(data):
     # 递归建立决策树， 当gain=0，时停止回归
-    # build decision tree bu recursive function
-    # stop recursive function when gain = 0
-    # return tree
     currentGain = gini(data)
     column_lenght = len(data[0])
     rows_length = len(data)
@@ -92,7 +86,6 @@ def buildDecisionTree(data):
     best_value = None
     best_set = None
 
-    # choose the best gain
     for col in range(column_lenght - 1):
         col_value_set = set([x[col] for x in data])
         for value in col_value_set:
@@ -104,8 +97,6 @@ def buildDecisionTree(data):
                 best_value = (col, value)
                 best_set = (list1, list2)
     dcY = {'impurity': '%.3f' % currentGain, 'sample': '%d' % rows_length}
-    #
-    # stop or not stop
 
     if best_gain > 0:
         trueBranch = buildDecisionTree(best_set[0])
@@ -116,7 +107,7 @@ def buildDecisionTree(data):
 
 
 def prune(tree, miniGain):
-    # 剪枝 when gain < mini Gain, 合并（merge the trueBranch and falseBranch）
+    # 剪枝 when gain < mini Gain, 合并
     if tree.trueBranch.results == None:
         prune(tree.trueBranch, miniGain)
     if tree.falseBranch.results == None:
@@ -168,6 +159,12 @@ if __name__ == '__main__':
     decisionTree = buildDecisionTree(dataSet)
     prune(decisionTree, 0.4)
     testDataSet = dataSet[:,0:-1]
-    for testData in testDataSet:
-        r = classify(testData, decisionTree)
-        print(r)
+    sum=0
+    all=len(dataSet)
+    for i in range(all):
+        r = classify(testDataSet[i], decisionTree)
+        if dataSet[i,-1] in r:
+            sum+=1
+    print('成功: ', sum, '总共: ', all)
+    rate = sum/all
+    print('准确度为:%2f%%' % (rate*100))
