@@ -46,7 +46,7 @@ class NBClassifier(object):
             self.x.append(list(set(x[:,i])))# 记录下每一列的数值集
 
     def train(self,x,y):
-        x = self.preprocess(x) ############################################################################
+        x = self.preprocess(x) 
         self.get_set(x,y)
         # 获取p(y)
         for yi in self.y:
