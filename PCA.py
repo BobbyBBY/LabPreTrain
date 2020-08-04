@@ -21,20 +21,12 @@ def get_feature(x):
     ave = np.tile(ave, (m, 1))
     a = x-ave
     b = a.T
-    # x_cov = np.cov((x-ave).T) # 求x的协方差矩阵
     x_cov = np.cov(b)
     featValue, featVec=  np.linalg.eig(x_cov)  # 求解协方差矩阵的特征值和特征向量
     m = featValue.shape[0]
     feat = np.hstack((featValue.reshape((m,1)), featVec))
     feat = feat[np.argsort(-featValue)] # 按照featValue进行从大到小排序
     return feat[:,0], feat[:,1:]
-    
-def paint_varience_(featValue):
-    plt.figure()
-    plt.plot(featValue, 'k')
-    plt.xlabel('n_components', fontsize=16)
-    plt.ylabel('explained_variance_', fontsize=16)
-    plt.show()
             
 def PCA(data):
     featValue, featVec  = get_feature(data)
@@ -58,10 +50,8 @@ def draw(data):
             if i == j:
                 continue
             plt.subplot(dim,dim,i*dim+j+1)
-            # 挑选出前两个维度作为x轴和y轴，选择分类为色彩轴
             x_axis = data[:,i]
             y_axis = data[:,j]
-            # c指定点的颜色，当c赋值为数值时，会根据值的不同自动着色
             plt.scatter(x_axis, y_axis)
     plt.show()
 
