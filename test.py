@@ -1,5 +1,7 @@
 import numpy as np
 import random
+import tensorflow as tf
+import sys
 
 a = [[1,1,1],[2,2,2],[3,3,3],[4,4,4]]
 data2 = np.array(a)
@@ -25,3 +27,8 @@ x = 1.0/(1+np.exp(-data7))
 print(x)
 
 # print(np.exp(-data7)/(1+np.exp(-data7)))
+x = np.array([1]*100)
+label = tf.convert_to_tensor(x)
+print(label)
+tensor = tf.range(10)
+tf.print(tensor, output_stream=sys.stderr)

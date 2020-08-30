@@ -3,7 +3,6 @@ import numpy as np
 from collections import defaultdict
 import argparse
 from scipy.io import arff
-import pandas as pd
 from sklearn.model_selection import train_test_split
 
 args = None
@@ -23,12 +22,12 @@ def load_data():
     return data[:,0:len(data[0])-1],np.reshape(data[:,len(data[0])-1:len(data[0])],len(data))
 
 class NBClassifier(object):
-    def __init__(self):
+    def __init__(self, layers = 5):
         self.y = [] # 标签集合
         self.x = [] # 每个属性的数值集合
         self.py = defaultdict(float) # 标签的概率分布
         self.pxy = defaultdict(dict) # 每个标签下的每个属性的概率分布
-        self.n = args.layers # 分级的级数
+        self.n = layers # 分级的级数
 
     # 计算元素在列表中出现的频率
     def prob(self,element,arr):
@@ -67,7 +66,10 @@ class NBClassifier(object):
         for yi in self.y:
             prob_y = self.py[yi]
             for i in range(len(x)):
-                prob_x_y = self.pxy[yi][i][self.x[i].index(x[i])] # p(xi|y)
+                if (x[i] in self.x[i]):
+                    prob_x_y = self.pxy[yi][i][self.x[i].index(x[i])] # p(xi|y)
+                else:
+                    prob_x_y = 0
                 prob_y *= prob_x_y # 计算p(x1|y)p(x2|y)...p(xn|y)p(y)
             if prob_y > max_prob:
                 max_prob = prob_y
@@ -114,7 +116,7 @@ if __name__ == "__main__":
     args = args_init_static()
     x,y = load_data()
     x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.25)
-    clf = NBClassifier()
+    clf = NBClassifier(args.layers)
     clf.train(x_train,y_train)
     score = clf.score(x_test,y_test)
     print('test score',score)
