@@ -82,7 +82,7 @@ optimizer = tf.keras.optimizers.Adam(lr=0.0001)
 loss_func = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
 
 # 设置回调功能
-filepath = 'model/CNN_model' # 保存模型地址
+filepath = 'model/CNN_model2' # 保存模型地址
 saved_model = tf.keras.callbacks.ModelCheckpoint(filepath, verbose = 1) # 回调保存模型功能
 tensorboard = tf.keras.callbacks.TensorBoard(log_dir = 'model/log') # 回调可视化数据功能
 

@@ -50,7 +50,7 @@ model.compile(optimizer=optimizer, loss=loss_func, metrics=['categorical_accurac
 model.load_weights('model/CNN_model')
 
 
-# vc = cv2.VideoCapture("C:\\Users\\76449\\Videos\\Captures\\1598669367563.MP4")  # 读入视频文件
+# vc = cv2.VideoCapture("C:\\Users\\76449\\Videos\\Captures\\cat_dog.MP4")  # 读入视频文件
 # vc = cv2.VideoCapture("C:\\Users\\76449\\Videos\\Captures\\新视频.MP4")  # 读入视频文件
 # vc = cv2.VideoCapture("C:\\Users\\76449\\Videos\\Captures\\gitrevert.MP4")  # 读入视频文件
 vc = cv2.VideoCapture(0)  # 打开摄像头
@@ -94,18 +94,22 @@ while True:
     contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
  
     text = "Unoccupied"
-    # 遍历轮廓
+    # 遍历轮廓,找到最大的那个
     area = 0
-    for contour in contours:
+    i = 0
+    for temp_i in range(len(contours)):
         # if contour is too small, just ignore it
-        area_temp = cv2.contourArea(contour)
+        area_temp = cv2.contourArea(contours[temp_i])
         if area_temp < area:
             continue
-        if cv2.contourArea(contour) < 500:   #面积阈值
+        if cv2.contourArea(contours[temp_i]) < 500:   #面积阈值
             continue
+        area = area_temp
+        i = temp_i
  
-        # 计算最小外接矩形（非旋转）
-        (x, y, w, h) = cv2.boundingRect(contour)
+    if len(contours) > 0:
+    # 计算最小外接矩形（非旋转）
+        (x, y, w, h) = cv2.boundingRect(contours[i])
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         dst = frame[y: y + h, x: x + w]
         cv2.imshow('dst', dst)
@@ -123,7 +127,7 @@ while True:
             text = "None"
         
  
-    cv2.putText(frame, "Room Status: {}".format(text), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+    cv2.putText(frame, "It is a: {}".format(text), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
     # cv2.putText(frame, "F{}".format(frameCount), (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
  
     cv2.imshow('frame_with_result', frame)

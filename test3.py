@@ -50,7 +50,7 @@ def get_files(input_path):
     for i in range(len(input_path)):
         if "dog" in input_path[i]:
             labels.append([1,0,0])
-        elif "dog" in input_path[i]:
+        elif "cat" in input_path[i]:
             labels.append([0,1,0])
         else:
             labels.append([0,0,1])
@@ -77,7 +77,7 @@ test_dir_dogs = "C:\\DesktopOthers\\Github\\LabPreTrain\\Dataset\\test_set\\test
 test_dir_cats = "C:\\DesktopOthers\\Github\\LabPreTrain\\Dataset\\test_set\\test_set\\cats\\*.jpg"
 test_dir_other = "C:\\DesktopOthers\\青海照片\\喻子钊\\*.jpg"
 
-input_path, labels = get_files(test_dir_other)
+input_path, labels = get_files(test_dir_cats)
 # train_ds = get_batch(input_path, labels)
 # test_ds_dogs = get_files(test_dir_dogs)
 # test_ds_cats = get_files(test_dir_cats)
